@@ -2,56 +2,68 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="350dp"
+    android:layout_height="110dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="335dp"
-        android:layout_height="95dp"
-        android:background="@drawable/film_space"
-        android:elevation="32dp">
-        <ImageView
-            android:id="@+id/film_logo"
-            android:layout_width="45dp"
-            android:layout_height="65dp"
-            android:layout_marginStart="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="330dp"
+            android:layout_height="95dp"
+            android:background="@drawable/film_space"
+            android:elevation="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.466"
-            app:srcCompat="@drawable/ic_launcher_foreground" />
-        <TextView
-            android:id="@+id/film_name"
-            android:layout_width="184dp"
-            android:layout_height="17dp"
-            android:fontFamily="@font/roboto2"
-            android:text="Изгой-один: Звёздные..."
-            android:textColor="?attr/colorSecondaryVariant"
-            android:textFontWeight="500"
-            android:textSize="15sp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="26dp"
-            app:layout_constraintStart_toEndOf="@+id/film_logo"
-            app:layout_constraintTop_toTopOf="parent" />
-        <TextView
-            android:id="@+id/film_genre_year"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/roboto2"
-            android:text="Фантастика (2016)"
-            android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/film_logo"
-            app:layout_constraintTop_toBottomOf="@+id/film_name" />
-        <ImageView
-            android:id="@+id/vector"
-            android:layout_width="14.2dp"
-            android:layout_height="13.5dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/star" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/film_logo"
+                android:layout_width="45dp"
+                android:layout_height="65dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_launcher_foreground" />
+
+            <TextView
+                android:id="@+id/film_name"
+                android:layout_width="184dp"
+                android:layout_height="17dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="26dp"
+                android:fontFamily="@font/roboto2"
+                android:text="Изгой-один: Звёздные..."
+                android:textColor="?attr/colorSecondaryVariant"
+                android:textFontWeight="500"
+                android:textSize="15sp"
+                app:layout_constraintStart_toEndOf="@+id/film_logo"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/film_genre_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto2"
+                android:text="Фантастика (2016)"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/film_logo"
+                app:layout_constraintTop_toBottomOf="@+id/film_name" />
+
+            <ImageView
+                android:id="@+id/vector"
+                android:layout_width="14.2dp"
+                android:layout_height="13.5dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/star" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -6,11 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.MainViewModel
-import com.example.myapplication.R
 import com.example.myapplication.adapters.FilmAdapter
 import com.example.myapplication.adapters.FilmModel
 import com.example.myapplication.adapters.RecycleViewOnClickListener
@@ -19,7 +16,6 @@ import com.example.myapplication.databinding.FragmentFavouriteBinding
 class Favourite : Fragment(), RecycleViewOnClickListener {
     private lateinit var binding : FragmentFavouriteBinding
     private lateinit var adapter : FilmAdapter
-    private var favouriteFilmList = ArrayList<FilmModel>()
     private val model : MainViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +29,8 @@ class Favourite : Fragment(), RecycleViewOnClickListener {
         super.onViewCreated(view, savedInstanceState)
         initRcView()
         model.favouriteDataList.observe(viewLifecycleOwner) {
-            adapter.submitList(favouriteFilmList)
+            val noDuplicates = it.distinct()
+            adapter.submitList(noDuplicates)
             adapter.notifyDataSetChanged()
         }
     }
@@ -52,5 +49,17 @@ class Favourite : Fragment(), RecycleViewOnClickListener {
 
     override fun onItemClick(pos: Int) {
 
+    }
+
+    override fun onItemLongClick(pos: Int) {
+        val temp = ArrayList(model.favouriteDataList.value)
+        val popularTemp = ArrayList(model.liveDataList.value)
+        val toReplace = temp[pos]
+        val toReplaceAt = popularTemp.indexOf(toReplace)
+        toReplace.favourite = 0
+        popularTemp[toReplaceAt] = toReplace
+        temp.removeAt(pos)
+        model.liveDataList.value = popularTemp
+        model.favouriteDataList.value = temp
     }
 }

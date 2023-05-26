@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.myapplication.MainViewModel
+import com.example.myapplication.R
 import com.example.myapplication.adapters.FilmAdapter
 import com.example.myapplication.adapters.FilmModel
 import com.example.myapplication.adapters.RecycleViewOnClickListener
@@ -28,7 +29,7 @@ private const val Content_Type = "application/json"
 class Popular : Fragment(), RecycleViewOnClickListener {
     private lateinit var binding : FragmentPopularBinding
     private lateinit var adapter : FilmAdapter
-    private var filmList = ArrayList<FilmModel>()
+
     private var pages = 1
     private val model: MainViewModel by activityViewModels()
     override fun onCreateView(
@@ -44,8 +45,8 @@ class Popular : Fragment(), RecycleViewOnClickListener {
         super.onViewCreated(view, savedInstanceState)
         initRcView()
         model.liveDataList.observe(viewLifecycleOwner) { // запускает обсервер, который обрабатывает данные,
-            adapter.submitList(it)
-            adapter.notifyDataSetChanged()// отправляемые в модель (передает адаптеру)
+            adapter.submitList(it)                                         // отправляемые в модель (передает адаптеру)
+            adapter.notifyDataSetChanged()
         }
         requestTopListData(pages)
     }
@@ -59,9 +60,12 @@ class Popular : Fragment(), RecycleViewOnClickListener {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
-                if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() >= filmList.size - 6) {
-                    pages++
-                    requestTopListData(pages)
+                val filmListSize = model.liveDataList.value?.size
+                if (filmListSize != null) {
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() >= filmListSize - 11) {
+                        pages++
+                        requestTopListData(pages)
+                    }
                 }
             }
         })
@@ -91,6 +95,10 @@ class Popular : Fragment(), RecycleViewOnClickListener {
     }
 
     private fun loadTopListData(data: String) { // парсим и загружаем данные в модель
+        var filmList = ArrayList<FilmModel>()
+        val temp = model.liveDataList.value
+        if (temp != null)
+            filmList = ArrayList(temp)
         val jsonObj = JSONObject(data)
         val jsonFilmArray = jsonObj.getJSONArray("films")
         val filmArrayLength = jsonFilmArray.length()
@@ -137,9 +145,26 @@ class Popular : Fragment(), RecycleViewOnClickListener {
         fun newInstance() = Popular()
     }
 
-    override fun onItemClick(pos: Int) = with (binding){
-        filmList[pos].name = "changed!"
-        filmList[pos].favourite = true
+    override fun onItemClick(pos: Int) {
+
+    }
+
+    override fun onItemLongClick(pos: Int) = with (binding){
+        val filmList = ArrayList(model.liveDataList.value)
+        if (model.favouriteDataList.value == null) {
+            filmList[pos].favourite = R.drawable.star
+            model.favouriteDataList.value = List<FilmModel>(1) {
+                filmList[pos]
+            }
+        }
+        else {
+
+            val temp = ArrayList(model.favouriteDataList.value)
+            filmList[pos].favourite = R.drawable.star
+            temp.add(filmList[pos])
+            val distincted = temp.distinct()
+            model.favouriteDataList.value = distincted
+        }
         adapter.notifyDataSetChanged()
     }
 }

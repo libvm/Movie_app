@@ -1,5 +1,6 @@
 package com.example.myapplication.adapters
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +12,16 @@ import com.example.myapplication.databinding.FilmItemBinding
 import com.squareup.picasso.Picasso
 
 class FilmAdapter(private val clickListener: RecycleViewOnClickListener) : ListAdapter<FilmModel, FilmAdapter.ViewHolder>(Comparator()) {
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val binding = FilmItemBinding.bind(view)
         fun bind(item: FilmModel) = with(binding){
             filmName.text = item.name
             val genreAndYear = item.genres[0] + " " + "(" + item.year + ")"
             filmGenreYear.text = genreAndYear
+            filmLogo.visibility = View.VISIBLE
             Picasso.get().load(item.posterUrlPreview).into(filmLogo)
+            vector.setImageResource(item.favourite)
         }
     }
 
@@ -39,7 +43,11 @@ class FilmAdapter(private val clickListener: RecycleViewOnClickListener) : ListA
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
-            clickListener.onItemClick(position)
+            clickListener.onItemClick(holder.bindingAdapterPosition)
+        }
+        holder.itemView.setOnLongClickListener {
+            clickListener.onItemLongClick(holder.bindingAdapterPosition)
+            true
         }
         holder.bind(getItem(position))
     }
@@ -47,5 +55,6 @@ class FilmAdapter(private val clickListener: RecycleViewOnClickListener) : ListA
 
 interface RecycleViewOnClickListener {
     fun onItemClick(pos :Int)
+    fun onItemLongClick(pos: Int)
 }
 

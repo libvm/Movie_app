@@ -1,5 +1,7 @@
 package com.example.myapplication.adapters
 
+import com.example.myapplication.R
+
 data class FilmModel(
     var name: String,
     var rating: String = "",
@@ -11,5 +13,5 @@ data class FilmModel(
     val genres: ArrayList<String>,
     val posterUrl: String,
     val posterUrlPreview: String,
-    var favourite : Boolean = false
+    var favourite: Int = 0
 )

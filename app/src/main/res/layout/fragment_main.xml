@@ -13,7 +13,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="15dp"
         android:background="?attr/colorOnPrimary"
         android:minHeight="?attr/actionBarSize"
         android:paddingEnd="15dp"
@@ -35,10 +35,9 @@
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp"
-        android:layout_width="330dp"
-        android:layout_height="555dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="570dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
