@@ -1,6 +1,5 @@
 package com.example.myapplication.adapters
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,13 +7,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
-import com.example.myapplication.databinding.FilmItemBinding
+import com.example.myapplication.databinding.FragmentFilmlistItemBinding
+import com.example.myapplication.interfaces.RecycleViewOnClickListener
+import com.example.myapplication.models.FilmModel
 import com.squareup.picasso.Picasso
 
-class FilmAdapter(private val clickListener: RecycleViewOnClickListener) : ListAdapter<FilmModel, FilmAdapter.ViewHolder>(Comparator()) {
+class FilmRecyclerAdapter(private val clickListener: RecycleViewOnClickListener) : ListAdapter<FilmModel, FilmRecyclerAdapter.ViewHolder>(Comparator()) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
-        val binding = FilmItemBinding.bind(view)
+        val binding = FragmentFilmlistItemBinding.bind(view)
         fun bind(item: FilmModel) = with(binding){
             filmName.text = item.name
             val genreAndYear = item.genres[0] + " " + "(" + item.year + ")"
@@ -37,7 +38,7 @@ class FilmAdapter(private val clickListener: RecycleViewOnClickListener) : ListA
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.film_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_filmlist_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -51,10 +52,5 @@ class FilmAdapter(private val clickListener: RecycleViewOnClickListener) : ListA
         }
         holder.bind(getItem(position))
     }
-}
-
-interface RecycleViewOnClickListener {
-    fun onItemClick(pos :Int)
-    fun onItemLongClick(pos: Int)
 }
 

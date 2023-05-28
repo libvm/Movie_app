@@ -1,13 +1,13 @@
-package com.example.myapplication.adapters
+package com.example.myapplication.models
 
-import com.example.myapplication.R
 
 data class FilmModel(
+    var fullyLoaded : Boolean = false,
+    val id : String,
     var name: String,
     var rating: String = "",
     val year: String,
     val length: String,
-    var ratingAgeLimits: String = "",
     var description: String = "",
     val countries: ArrayList<String>,
     val genres: ArrayList<String>,

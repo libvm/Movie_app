@@ -4,14 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FilmActivity">
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:id="@+id/film">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="FilmInfo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,12 +20,20 @@
                 android:id="@+id/film_logo"
                 android:layout_width="match_parent"
                 android:layout_height="533dp"
-                tools:srcCompat="@tools:sample/avatars"
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+            <RatingBar
+                android:id="@+id/film_ratingBar"
+                style="@style/Widget.AppCompat.RatingBar.Indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="10"
+                android:progressTint="?attr/colorPrimary"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"/>
             <TextView
                 android:id="@+id/film_name"
                 android:layout_width="match_parent"
@@ -39,7 +44,7 @@
                 android:textColor="?attr/colorSecondaryVariant"
                 android:textSize="20sp"
                 android:textFontWeight="600"
-                android:text="Изгой-один: Звёздные войныыыыыыыыыыы" />
+                android:text="" />
             <TextView
                 android:id="@+id/film_description"
                 android:layout_width="match_parent"
@@ -47,9 +52,9 @@
                 android:layout_marginHorizontal="35dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
-                android:text="Сопротивление собирает отряд для выполнения особой миссии - надо выкрасть чертежи самого совершенного и мертоносного оружия Империи. Не всем суждено вернуться домой, но герои готовы к этому, ведь на кону судьба Галактики"
+                android:text=""
                 android:textFontWeight="400"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
             <TextView
                 android:id="@+id/film_genres"
                 android:layout_width="match_parent"
@@ -57,37 +62,25 @@
                 android:layout_marginHorizontal="35dp"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/roboto"
-                android:text="@string/genres" />
+                android:textSize="16sp" />
             <TextView
-                android:id="@+id/countries"
+                android:id="@+id/film_countries"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="35dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/roboto"
-                android:text="@string/countries" />
+                android:textSize="16sp"
+                android:text="" />
             <TextView
-                android:id="@+id/year"
+                android:id="@+id/film_year"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="35dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/roboto"
-                android:text="@string/year" />
+                android:textSize="16sp"
+                android:text="" />
         </LinearLayout>
     </ScrollView>
-    <ImageButton
-        android:id="@+id/larrow_button"
-        android:layout_width="51dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="58dp"
-        android:contentDescription="go back"
-        app:srcCompat="@drawable/larrow"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        android:padding="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

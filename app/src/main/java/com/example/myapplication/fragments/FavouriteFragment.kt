@@ -7,21 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.myapplication.MainViewModel
-import com.example.myapplication.adapters.FilmAdapter
-import com.example.myapplication.adapters.FilmModel
-import com.example.myapplication.adapters.RecycleViewOnClickListener
-import com.example.myapplication.databinding.FragmentFavouriteBinding
+import com.example.myapplication.R
+import com.example.myapplication.models.MainViewModel
+import com.example.myapplication.adapters.FilmRecyclerAdapter
+import com.example.myapplication.databinding.FragmentFilmlistBinding
+import com.example.myapplication.interfaces.RecycleViewOnClickListener
 
-class Favourite : Fragment(), RecycleViewOnClickListener {
-    private lateinit var binding : FragmentFavouriteBinding
-    private lateinit var adapter : FilmAdapter
+class FavouriteFragment : Fragment(), RecycleViewOnClickListener {
+    private lateinit var binding : FragmentFilmlistBinding
+    private lateinit var adapter : FilmRecyclerAdapter
     private val model : MainViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFavouriteBinding.inflate(inflater, container, false)
+        binding = FragmentFilmlistBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -31,24 +32,26 @@ class Favourite : Fragment(), RecycleViewOnClickListener {
         model.favouriteDataList.observe(viewLifecycleOwner) {
             val noDuplicates = it.distinct()
             adapter.submitList(noDuplicates)
-            adapter.notifyDataSetChanged()
         }
     }
 
     private fun initRcView() = with(binding) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        adapter = FilmAdapter(this@Favourite)
+        adapter = FilmRecyclerAdapter(this@FavouriteFragment)
         recyclerView.adapter = adapter
     }
 
     companion object {
-
         @JvmStatic
-        fun newInstance() = Favourite()
+        fun newInstance() = FavouriteFragment()
     }
 
     override fun onItemClick(pos: Int) {
-
+        val temp = ArrayList(model.favouriteDataList.value)
+        parentFragmentManager.beginTransaction()
+            .addToBackStack(FilmFragment.newInstance(temp[pos]).javaClass.canonicalName)//optional
+            .replace(R.id.placeHolder, FilmFragment.newInstance(temp[pos]))
+            .commit()
     }
 
     override fun onItemLongClick(pos: Int) {
@@ -61,5 +64,6 @@ class Favourite : Fragment(), RecycleViewOnClickListener {
         temp.removeAt(pos)
         model.liveDataList.value = popularTemp
         model.favouriteDataList.value = temp
+        adapter.notifyDataSetChanged()
     }
 }

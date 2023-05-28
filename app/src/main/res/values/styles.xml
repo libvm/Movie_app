@@ -32,6 +32,6 @@
         <item name="android:fontFamily">@font/roboto2</item>
         <item name="android:lineHeight">16sp</item>
         <item name="android:textColor">?attr/colorSecondaryVariant</item>
-
     </style>
+
 </resources>
