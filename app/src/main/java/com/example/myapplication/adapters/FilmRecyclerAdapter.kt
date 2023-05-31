@@ -12,11 +12,12 @@ import com.example.myapplication.interfaces.RecycleViewOnClickListener
 import com.example.myapplication.models.FilmModel
 import com.squareup.picasso.Picasso
 
-class FilmRecyclerAdapter(private val clickListener: RecycleViewOnClickListener) : ListAdapter<FilmModel, FilmRecyclerAdapter.ViewHolder>(Comparator()) {
+class FilmRecyclerAdapter(private val clickListener: RecycleViewOnClickListener?) : ListAdapter<FilmModel, FilmRecyclerAdapter.ViewHolder>(Comparator()) {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = FragmentFilmlistItemBinding.bind(view)
-        fun bind(item: FilmModel) = with(binding){
+
+        fun bind(item: FilmModel) = with(binding) {
             filmName.text = item.name
             val genreAndYear = item.genres[0] + " " + "(" + item.year + ")"
             filmGenreYear.text = genreAndYear
@@ -26,7 +27,7 @@ class FilmRecyclerAdapter(private val clickListener: RecycleViewOnClickListener)
         }
     }
 
-    class Comparator : DiffUtil.ItemCallback<FilmModel>(){
+    class Comparator : DiffUtil.ItemCallback<FilmModel>() {
         override fun areItemsTheSame(oldItem: FilmModel, newItem: FilmModel): Boolean {
             return oldItem == newItem
         }
@@ -38,19 +39,25 @@ class FilmRecyclerAdapter(private val clickListener: RecycleViewOnClickListener)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_filmlist_item, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.fragment_filmlist_item, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
-            clickListener.onItemClick(holder.bindingAdapterPosition)
+            clickListener?.onItemClick(holder.bindingAdapterPosition)
         }
         holder.itemView.setOnLongClickListener {
-            clickListener.onItemLongClick(holder.bindingAdapterPosition)
+            clickListener?.onItemLongClick(holder.bindingAdapterPosition)
             true
         }
         holder.bind(getItem(position))
+    }
+
+    fun loadList (list: ArrayList<FilmModel>) {
+        super.submitList(list)
+        notifyDataSetChanged()
     }
 }
 

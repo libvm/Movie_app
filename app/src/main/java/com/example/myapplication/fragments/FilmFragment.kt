@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentFilmBinding
 import com.example.myapplication.models.FilmModel
 import com.example.myapplication.models.MainViewModel
@@ -85,7 +86,6 @@ class FilmFragment(val filmModel: FilmModel) : Fragment() {
             favTemp[favFilmAt] = filmModel
             model.favouriteDataList.value = favTemp
         }
-        Log.d("MyLog", filmModel.name)
     }
 
     private fun bindData () = with (binding) {

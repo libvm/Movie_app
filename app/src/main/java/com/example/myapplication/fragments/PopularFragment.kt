@@ -1,10 +1,14 @@
 package com.example.myapplication.fragments
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnAttachStateChangeListener
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +23,7 @@ import com.example.myapplication.models.FilmModel
 import com.example.myapplication.models.MainViewModel
 import org.json.JSONObject
 
+
 private const val API_KEY = "3d677980-afbf-49eb-904a-aaf8b9998d52"
 private const val Content_Type = "application/json"
 
@@ -32,7 +37,6 @@ class PopularFragment : Fragment(), RecycleViewOnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentFilmlistBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -45,6 +49,7 @@ class PopularFragment : Fragment(), RecycleViewOnClickListener {
             adapter.notifyDataSetChanged()
         }
         requestTopListData(pages)
+        initSearch()
     }
 
     private fun initRcView() = with(binding) {
@@ -65,7 +70,45 @@ class PopularFragment : Fragment(), RecycleViewOnClickListener {
                 }
             }
         })
+    }
 
+    private fun initSearch () {
+        val searchView = model.mainFragmentBinding.value?.toolbar?.menu?.findItem(R.id.action_search)?.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                filter(newText)
+                return false
+            }
+        })
+
+        searchView.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
+            override fun onViewDetachedFromWindow(arg0: View) {
+                model.mainFragmentBinding.value?.vp?.isUserInputEnabled = true
+                model.mainFragmentBinding.value?.tabLayout?.refreshDrawableState()
+            }
+
+            override fun onViewAttachedToWindow(arg0: View) {
+                model.mainFragmentBinding.value?.vp?.isUserInputEnabled = false
+            }
+        })
+    }
+
+    fun filter(text: String) {
+        val filteredlist: ArrayList<FilmModel> = ArrayList()
+        var currentList = ArrayList<FilmModel>()
+        if (model.liveDataList.value != null)
+            currentList = ArrayList(model.liveDataList.value)
+
+        for (item in currentList) {
+            if (item.name.contains(text)) {
+                filteredlist.add(item)
+            }
+        }
+        adapter.loadList(filteredlist)
     }
 
     private fun requestTopListData(pageNum : Int) { // http запрос
@@ -78,7 +121,7 @@ class PopularFragment : Fragment(), RecycleViewOnClickListener {
                         result -> loadTopListData(result)
                 },
                 {
-                        error -> Log.d("MyLog", "Error: $pageNum")
+                        error -> Log.d("MyLog", "Error: $error")
                 }
             )
             {
@@ -154,8 +197,9 @@ class PopularFragment : Fragment(), RecycleViewOnClickListener {
 
     override fun onItemClick(pos: Int) {
         val temp = ArrayList(model.liveDataList.value)
-        parentFragmentManager.beginTransaction()
-            .addToBackStack(FilmFragment.newInstance(temp[pos]).javaClass.canonicalName)//optional
+
+        (activity as AppCompatActivity).supportFragmentManager.beginTransaction()
+            .addToBackStack(FilmFragment.newInstance(temp[pos]).javaClass.canonicalName)
             .replace(R.id.placeHolder, FilmFragment.newInstance(temp[pos]))
             .commit()
     }

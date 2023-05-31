@@ -35,16 +35,15 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp"
         android:layout_width="match_parent"
-        android:layout_height="570dp"
-
+        android:layout_height="565dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_margin="5dp"
+        android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,10 +54,12 @@
         app:tabSelectedTextColor="?attr/colorOnPrimary"
         app:tabTextAppearance="@style/TabText"
         app:tabTextColor="@color/blue">
+
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/popular" />
+
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
